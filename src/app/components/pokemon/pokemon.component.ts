@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PokemonResponse } from '../../models/pokemon.interface';
 import { PokemonService } from '../../services/pokemon.service';
 
@@ -8,19 +8,33 @@ import { PokemonService } from '../../services/pokemon.service';
   styleUrl: './pokemon.component.css'
 })
 export class PokemonComponent implements OnInit {
-  pokemon1: PokemonResponse | undefined;
-  pokemon2: PokemonResponse | undefined;
 
+  @Input() pokemonId: number | undefined;
+  pokemon: PokemonResponse | undefined;
+  life: number = 100;
+  @Output() onAttackDone = new EventEmitter<number>();
+  
   constructor(private pokemonService: PokemonService) {}
 
   ngOnInit(): void {
-    this.pokemonService.getPokemon(1).subscribe((pokemon) => {
-      this.pokemon1 = pokemon;
+    this.pokemonService.getPokemon(this.pokemonId!).subscribe((pokemon) => {
+      this.pokemon = pokemon;
     });
-    
-    this.pokemonService.getPokemon(2).subscribe((pokemon) => {
-      this.pokemon2 = pokemon;
-    });
+  }
+
+  getProgressBarColor(): string {
+    if (this.life >= 60) {
+      return 'success';
+    } else if (this.life >= 30) {
+      return 'warning';
+    } else {
+      return 'danger';
+    }
+  }
+
+  doAttack() {
+    var damage = Math.floor(Math.random() * (30 -10) + 10);
+    this.onAttackDone.emit(damage);
   }
 
 }

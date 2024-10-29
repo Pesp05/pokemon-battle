@@ -1,1 +1,4 @@
-<p>pokemon-battle works!</p>
+<div class="d-flex">
+    <app-pokemon [pokemonId]="pokemonPlayer1Id" (onAttackDone)="applyDamage($event)"></app-pokemon>
+    <app-pokemon [pokemonId]="pokemonPlayer2Id" (onAttackDone)="applyDamage($event)"></app-pokemon>
+</div>

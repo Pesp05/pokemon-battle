@@ -1,1 +1,16 @@
-<p>pokemon works!</p>
+
+<div class="card" style="width: 18rem;">
+    <img [src]="pokemon?.sprites?.front_default" class="card-img-top" [alt]="pokemon?.name">
+    <div class="card-body">
+      <h5 class="card-title">{{pokemon?.name}}</h5>
+      <p class="card-text">
+        <span *ngFor="let type of pokemon?.types">
+          {{type.type.name}}
+        </span>
+      </p>
+      <ngb-progressbar class="mb-3" [type]="getProgressBarColor()" [value]="life" [striped]="true" [animated]="true"
+	><i>{{life}}</i></ngb-progressbar
+>
+      <button (click)="doAttack()" class="btn btn-primary">Attack</button>
+    </div>
+</div>
